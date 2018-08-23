@@ -2670,13 +2670,6 @@ class PartitionViz(NVD3TimeSeriesViz):
         return self.nest_values(levels)
 
 
-viz_types = {
-    o.viz_type: o for o in globals().values()
-    if (
-        inspect.isclass(o) and
-        issubclass(o, BaseViz) and
-        o.viz_type not in config.get('VIZ_TYPE_BLACKLIST'))}
-
 class TableInsyniumViz(BaseViz):
 
     """A Table Insynium diagram"""
@@ -2781,3 +2774,10 @@ class TableInsyniumViz(BaseViz):
                 obj, default=utils.json_iso_dttm_ser, sort_keys=sort_keys)
         else:
             return super(TableInsyniumViz, self).json_dumps(obj)
+
+viz_types = {
+    o.viz_type: o for o in globals().values()
+    if (
+        inspect.isclass(o) and
+        issubclass(o, BaseViz) and
+        o.viz_type not in config.get('VIZ_TYPE_BLACKLIST'))}
