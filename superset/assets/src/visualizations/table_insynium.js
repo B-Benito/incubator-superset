@@ -79,18 +79,16 @@ function TableInsyniumVis(slice, payload) {
     .enter()
     .append('tr')
     .selectAll('td')
-
     // Dans cette exemple la variable c'est le paramètre de la colone .
     .data(row => data.columns.map((c) => {
       const val = row[c];
 
       //Zone de test des variables
 
-
-
       let html;
       const TestDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
       const isMetric = metrics.indexOf(c) >= 0;
+      var isNumber=false;
       if (typeof (val) === 'string') {
         html = `<span class="like-pre">${dompurify.sanitize(val)}</span>`;
       }
@@ -106,9 +104,11 @@ function TableInsyniumVis(slice, payload) {
       if(typeof(val)==='number'){
         if(fd.devise_columns.includes(c)){
           html= `<span class="right-align">${Intl.NumberFormat('fr-FR', { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val)}</span>`;
+          isNumber=true;
         }
         else if(fd.numeric_columns.includes(c)){
           html= `<span class="right-align">${Intl.NumberFormat('fr-FR', { style: 'decimal', maximumFractionDigits: 2 }).format(val)}</span>`;
+          isNumber=true;
         }
       }
       return {
@@ -116,6 +116,7 @@ function TableInsyniumVis(slice, payload) {
         val,
         html,
         isMetric,
+        isNumber,
       };
     }))
     .enter()
@@ -147,7 +148,7 @@ function TableInsyniumVis(slice, payload) {
       }
       return null;
     })
-    .classed('text-right', d => d.isMetric)
+    .classed('text-right', d => d.isMetric || d.isNumber)
     .attr('title', (d) => {
       if (!isNaN(d.val)) {
         return fC(d.val);
