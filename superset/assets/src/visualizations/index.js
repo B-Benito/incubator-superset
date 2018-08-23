@@ -2,6 +2,7 @@
 
 // You ***should*** use these to reference viz_types in code
 export const VIZ_TYPES = {
+  table_insynium:'table_insynium',
   area: 'area',
   bar: 'bar',
   big_number: 'big_number',
@@ -62,6 +63,7 @@ const loadVis = promise =>
 const loadNvd3 = () => loadVis(import(/* webpackChunkName: "nvd3_vis" */ './nvd3_vis.js'));
 
 const vizMap = {
+  [VIZ_TYPES.table_insynium]: ()=>  loadVis(import('./table_insynium.js')),
   [VIZ_TYPES.area]: loadNvd3,
   [VIZ_TYPES.bar]: loadNvd3,
   [VIZ_TYPES.big_number]: () =>

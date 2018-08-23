@@ -1865,7 +1865,59 @@ export const visTypes = {
       sections.NVD3TimeSeries[1],
     ],
   },
+
+  // Ajout 'table_insynium'
+  table_insynium:{
+    label: t('Table Insynium'),
+    controlPanelSections: [
+      {
+        label: t('GROUP BY'),
+        description: t('Use this section if you want a query that aggregates'),
+        expanded: true,
+        controlSetRows: [
+          ['groupby'],
+          ['metrics'],
+          ['row_limit'],
+        ],
+      },
+      {
+        label: t('NOT GROUPED BY'),
+        description: t('Use this section if you want to query atomic rows'),
+        controlSetRows: [
+          ['all_columns'],
+          ['order_by_cols'],
+          ['row_limit'],
+        ],
+      },
+      {
+        label: t('Fixed Options'),
+        expanded: false,
+        controlSetRows: [
+          ['fixed_columns'],
+          ['devise_columns'],
+          ['numeric_columns'],
+        ],
+      },
+      {
+        label: t('Formating Options'),
+        expanded: true,
+        controlSetRows: [
+          ['table_timestamp_format'],
+          //['table_numeric_format'],
+          ['table_devise_format'],
+        ],
+      },
+    ],
+    controlOverrides: {
+      metrics: {
+        validators: [],
+      },
+    },
+  },
+
 };
+
+
 
 export default visTypes;
 

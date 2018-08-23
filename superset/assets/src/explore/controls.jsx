@@ -2241,5 +2241,63 @@ export const controls = {
     description: t('Whether to normalize the histogram'),
     default: false,
   },
+
+
+  // Ajout de la table 'devise_columns'
+  devise_columns:{
+    type: 'SelectControl',
+    multi: true,
+    label: t('Choix des tables comportant des devises'),
+    default: [],
+    optionRenderer: c => <ColumnOption column={c} showType />,
+    valueRenderer: c => <ColumnOption column={c} />,valueKey: 'column_name',
+    mapStateToProps: state => ({
+      options: (state.datasource) ? state.datasource.columns : [],
+    }),
+  },
+
+  // Ajout de la table 'fixed_columns'
+  fixed_columns:{
+    type: 'SelectControl',
+    multi: false,
+    label: t('Fixed Left Columns'),
+    default: '0',
+    choices: [
+      '0','1','2','3','4','5','6',
+    ]
+  },
+
+  // Ajout de la table 'numeric_columns'
+  numeric_columns:{
+    type: 'SelectControl',
+    multi: true,
+    label: t('Choix des tables numerique'),
+    default: [],
+    optionRenderer: c => <ColumnOption column={c} showType />,
+    valueRenderer: c => <ColumnOption column={c} />,valueKey: 'column_name',
+    mapStateToProps: state => ({
+      options: (state.datasource) ? state.datasource.columns : [],
+    }),
+  },
+
+  // Ajout de la table 'table_numeric_format'
+  table_numeric_format:{
+    type: 'SelectControl',
+    multi: false,
+    label: t('Choix du format numerique'),
+    default: [],
+    
+  },
+
+
+    // Ajout de la table 'table_devise_format'
+    table_devise_format:{
+    type: 'SelectControl',
+    multi: false,
+    label: t('Choix de la devise'),
+    default: [],
+    choices: DEVISE_OPTIONS,  
+  },
+
 };
 export default controls;
