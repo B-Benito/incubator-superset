@@ -53,6 +53,13 @@ import { t } from '../locales';
 
 const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
+// input DEVISE_OPTIONS choices & options
+const DEVISE_OPTIONS = [
+  ['EUR','€ EURO'],
+  ['JPY','￥ Yen'],
+];
+
+
 // input choices & options
 const D3_FORMAT_OPTIONS = [
   ['.1s', '.1s (12345.432 => 10k)'],
