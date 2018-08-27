@@ -1,11 +1,19 @@
 import d3 from 'd3';
 import dt from 'datatables.net-bs';
-import fixedColumns from 'datatables.net-fixedcolumns-bs';
-import 'datatables.net-bs/css/dataTables.bootstrap.css';
+
+//import 'datatables.net-bs/css/dataTables.bootstrap.css';
 import dompurify from 'dompurify';
+
+import 'datatables.net-bs/js/dataTables.bootstrap.min.js'
+import 'datatables.net-fixedcolumns-bs/js/fixedColumns.bootstrap.min.js'
+import 'datatables.net-bs/css/dataTables.bootstrap.min.css'
+import 'datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css'
 
 import { fixDataTableBodyHeight, d3TimeFormatPreset } from '../modules/utils';
 import './table_insynium.css';
+
+require( 'datatables.net-bs' )();
+require( 'datatables.net-fixedcolumns-bs' )();
 
 const $ = require('jquery');
 dt(window, $);
@@ -190,10 +198,6 @@ function TableInsyniumVis(slice, payload) {
 
   
   const datatable = container.find('.dataTable').DataTable({
-    //dom: "pBflrti",
-    fixedColumns: {
-      leftColumns: 2
-    },
     paging,
     pageLength,
     aaSorting: [],
@@ -202,6 +206,7 @@ function TableInsyniumVis(slice, payload) {
     scrollY: height + 'px',
     scrollCollapse: true,
     scrollX: true,
+    fixedColumns:{leftColumns: 1,rightColumns:1}
   });
 
   fixDataTableBodyHeight(
