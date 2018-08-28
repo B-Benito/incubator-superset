@@ -55,11 +55,17 @@ const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
 // input DEVISE_OPTIONS choices & options
 const DEVISE_OPTIONS = [
-  [['fr-FR','EUR'],'€ EURO'],
-  [['mfe','MUR'],'Mauritius Rupee'],
-  [['en-US','USD'],'USA']
+  ['EUR','€ EURO'],
+  ['MUR','Mauritius Rupee'],
+  ['USD','USD']
 
 ];
+
+const NUMERIQUE_OPTIONS = [
+  ['fr-FR','Europe'],
+  ['mfe','Maurice'],
+  ['en-US','USA']
+]
 
 
 // input choices & options
@@ -2315,8 +2321,17 @@ export const controls = {
     type: 'SelectControl',
     multi: false,
     label: t('Choix de la devise'),
-    default: [['EUR','€ EURO']],
+    default: ['EUR','€ EURO'],
     choices: DEVISE_OPTIONS,  
+  },
+
+      // Ajout de la table 'table_devise_format'
+    table_currency_format:{
+    type: 'SelectControl',
+    multi: false,
+    label: t('Choix format numerique'),
+    default: ['fr-FR','Europe'],
+    choices: NUMERIQUE_OPTIONS,  
   },
 
 };

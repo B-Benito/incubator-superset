@@ -111,11 +111,11 @@ function TableInsyniumVis(slice, payload) {
       }
       if(typeof(val)==='number'){
         if(fd.devise_columns.includes(c)){
-          html= `<span class="right-align">${Intl.NumberFormat(fd.table_devise_format[0], { style: 'currency', currency:fd.table_devise_format[1], maximumFractionDigits: 2}).format(val)}</span>`;
+          html= `<span class="right-align">${Intl.NumberFormat(fd.table_currency_format, { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val)}</span>`;
           isNumber=true;
         }
         else if(fd.numeric_columns.includes(c)){
-          html= `<span class="right-align">${Intl.NumberFormat('fr-FR', { style: 'decimal', maximumFractionDigits: 2 }).format(val)}</span>`;
+          html= `<span class="right-align">${Intl.NumberFormat(fd.table_currency_format, { style: 'decimal', maximumFractionDigits: 2 }).format(val)}</span>`;
           isNumber=true;
         }
       }

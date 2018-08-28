@@ -1904,7 +1904,7 @@ export const visTypes = {
         expanded: true,
         controlSetRows: [
           ['table_timestamp_format'],
-          //['table_numeric_format'],
+          ['table_currency_format'],
           ['table_devise_format'],
         ],
       },
