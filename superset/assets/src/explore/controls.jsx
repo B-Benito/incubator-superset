@@ -55,8 +55,10 @@ const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
 // input DEVISE_OPTIONS choices & options
 const DEVISE_OPTIONS = [
-  ['EUR','€ EURO'],
-  ['JPY','￥ Yen'],
+  [['fr-FR','EUR'],'€ EURO'],
+  [['mfe','MUR'],'Mauritius Rupee'],
+  [['en-US','USD'],'USA']
+
 ];
 
 
@@ -2254,7 +2256,7 @@ export const controls = {
   devise_columns:{
     type: 'SelectControl',
     multi: true,
-    label: t('Choix des tables comportant des devises'),
+    label: t('Choix des colonnes comportant des devises'),
     default: [],
     optionRenderer: c => <ColumnOption column={c} showType />,
     valueRenderer: c => <ColumnOption column={c} />,valueKey: 'column_name',
@@ -2263,22 +2265,33 @@ export const controls = {
     }),
   },
 
-  // Ajout de la table 'fixed_columns'
-  fixed_columns:{
+  // Ajout de la table 'fixed_columns_gauche'
+  fixed_columns_gauche:{
     type: 'SelectControl',
     multi: false,
     label: t('Fixed Left Columns'),
-    default: '0',
+    default: ['0'],
     choices: [
       '0','1','2','3','4','5','6',
     ]
   },
 
+    // Ajout de la table 'fixed_columns_droite'
+    fixed_columns_droite:{
+      type: 'SelectControl',
+      multi: false,
+      label: t('Fixed Right Columns'),
+      default: ['0'],
+      choices: [
+        '0','1','2','3','4','5','6',
+      ]
+    },
+
   // Ajout de la table 'numeric_columns'
   numeric_columns:{
     type: 'SelectControl',
     multi: true,
-    label: t('Choix des tables numerique'),
+    label: t('Choix des colonnes numerique'),
     default: [],
     optionRenderer: c => <ColumnOption column={c} showType />,
     valueRenderer: c => <ColumnOption column={c} />,valueKey: 'column_name',
@@ -2302,7 +2315,7 @@ export const controls = {
     type: 'SelectControl',
     multi: false,
     label: t('Choix de la devise'),
-    default: [],
+    default: [['EUR','€ EURO']],
     choices: DEVISE_OPTIONS,  
   },
 

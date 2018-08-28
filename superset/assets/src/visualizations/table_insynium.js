@@ -111,7 +111,7 @@ function TableInsyniumVis(slice, payload) {
       }
       if(typeof(val)==='number'){
         if(fd.devise_columns.includes(c)){
-          html= `<span class="right-align">${Intl.NumberFormat('fr-FR', { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val)}</span>`;
+          html= `<span class="right-align">${Intl.NumberFormat(fd.table_devise_format[0], { style: 'currency', currency:fd.table_devise_format[1], maximumFractionDigits: 2}).format(val)}</span>`;
           isNumber=true;
         }
         else if(fd.numeric_columns.includes(c)){
@@ -206,7 +206,7 @@ function TableInsyniumVis(slice, payload) {
     scrollY: height + 'px',
     scrollCollapse: true,
     scrollX: true,
-    fixedColumns:{leftColumns: 1,rightColumns:1}
+    fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:fd.fixed_columns_droite}
   });
 
   fixDataTableBodyHeight(

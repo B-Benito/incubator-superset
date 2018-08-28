@@ -1893,7 +1893,8 @@ export const visTypes = {
         label: t('Fixed Options'),
         expanded: false,
         controlSetRows: [
-          ['fixed_columns'],
+          ['fixed_columns_gauche'],
+          ['fixed_columns_droite'],
           ['devise_columns'],
           ['numeric_columns'],
         ],
