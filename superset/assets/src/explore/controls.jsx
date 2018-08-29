@@ -2278,7 +2278,7 @@ export const controls = {
     label: t('Fixed Left Columns'),
     default: ['0'],
     choices: [
-      '0','1','2','3','4','5','6',
+      '0','1','2','3','4','5','6','7', '8', '9','10','11','12','13',
     ]
   },
 
@@ -2289,7 +2289,7 @@ export const controls = {
       label: t('Fixed Right Columns'),
       default: ['0'],
       choices: [
-        '0','1','2','3','4','5','6',
+        '0','1','2','3','4','5','6','7', '8', '9','10','11','12','13',
       ]
     },
 
