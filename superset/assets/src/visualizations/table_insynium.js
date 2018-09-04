@@ -91,8 +91,6 @@ function TableInsyniumVis(slice, payload) {
     .data(row => data.columns.map((c) => {
       const val = row[c];
 
-      //Zone de test des variables
-
       let html;
       const TestDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
       const isMetric = metrics.indexOf(c) >= 0;
@@ -206,7 +204,11 @@ function TableInsyniumVis(slice, payload) {
     scrollY: height + 'px',
     scrollCollapse: true,
     scrollX: true,
-    fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:fd.fixed_columns_droite}
+    fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:fd.fixed_columns_droite},
+    processing: true,
+    serverSide: true,
+    deferLoading: 57,
+    deferRender: true,
   });
 
   fixDataTableBodyHeight(
