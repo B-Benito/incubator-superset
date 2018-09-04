@@ -205,10 +205,6 @@ function TableInsyniumVis(slice, payload) {
     scrollCollapse: true,
     scrollX: true,
     fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:fd.fixed_columns_droite},
-    processing: true,
-    serverSide: true,
-    deferLoading: 57,
-    deferRender: true,
   });
 
   fixDataTableBodyHeight(
