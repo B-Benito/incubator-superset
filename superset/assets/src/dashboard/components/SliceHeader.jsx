@@ -5,6 +5,7 @@ import { t } from '../../locales';
 import EditableTitle from '../../components/EditableTitle';
 import TooltipWrapper from '../../components/TooltipWrapper';
 import SliceHeaderControls from './SliceHeaderControls';
+import { chartPropType } from '../../chart/chartReducer';
 
 const propTypes = {
   innerRef: PropTypes.func,
@@ -24,6 +25,7 @@ const propTypes = {
   sliceName: PropTypes.string,
   supersetCanExplore: PropTypes.bool,
   sliceCanEdit: PropTypes.bool,
+  chart: PropTypes.shape(chartPropType).isRequired,
 };
 
 const defaultProps = {
@@ -69,6 +71,7 @@ class SliceHeader extends React.PureComponent {
       updateSliceName,
       annotationQuery,
       annotationError,
+      chart,
     } = this.props;
 
     return (
@@ -116,7 +119,7 @@ class SliceHeader extends React.PureComponent {
               exportCSV={exportCSV}
               supersetCanExplore={supersetCanExplore}
               sliceCanEdit={sliceCanEdit}
-              filters={this.props.filters}
+              chart={chart}
             />
           )}
         </div>
