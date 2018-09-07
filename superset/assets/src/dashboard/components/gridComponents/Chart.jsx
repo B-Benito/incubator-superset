@@ -188,6 +188,7 @@ class Chart extends React.Component {
           sliceName={sliceName}
           supersetCanExplore={supersetCanExplore}
           sliceCanEdit={sliceCanEdit}
+          filters={this.props.filters}
         />
 
         {/*

@@ -57,7 +57,7 @@ class SliceHeaderControls extends React.PureComponent {
       this,
       this.props.slice.slice_id,
     );
-
+    this.link=this.link.bind(this);
     this.state = {
       showControls: false,
     };
@@ -99,6 +99,17 @@ class SliceHeaderControls extends React.PureComponent {
     this.setState({
       showControls: !this.state.showControls,
     });
+  }
+
+  link(){
+    if(this.props.slice.form_data.excelurl!=undefined){
+      const url = this.props.slice.form_data.excelurl + '?filter='+JSON.stringify(this.props.filters);
+      return(
+        <MenuItem href={url} target="_blank">
+            {t('Télécharger au format Excel')}
+        </MenuItem>
+      );
+    }
   }
 
   render() {
@@ -148,6 +159,8 @@ class SliceHeaderControls extends React.PureComponent {
               {t('Explore chart')}
             </MenuItem>
           )}
+
+          {this.link()}
         </Dropdown.Menu>
       </Dropdown>
     );

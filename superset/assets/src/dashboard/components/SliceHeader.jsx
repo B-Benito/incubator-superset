@@ -116,6 +116,7 @@ class SliceHeader extends React.PureComponent {
               exportCSV={exportCSV}
               supersetCanExplore={supersetCanExplore}
               sliceCanEdit={sliceCanEdit}
+              filters={this.props.filters}
             />
           )}
         </div>
