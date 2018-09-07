@@ -1,9 +1,5 @@
 import d3 from 'd3';
 import dt from 'datatables.net-bs';
-
-//import 'datatables.net-bs/css/dataTables.bootstrap.css';
-import dompurify from 'dompurify';
-
 import 'datatables.net-bs/js/dataTables.bootstrap.min.js'
 import 'datatables.net-fixedcolumns-bs/js/fixedColumns.bootstrap.min.js'
 import 'datatables.net-bs/css/dataTables.bootstrap.min.css'
@@ -73,22 +69,61 @@ function TableInsyniumVis(slice, payload) {
     if (initalized) {
       const path = slice.selector+' table tbody tr td';
       $( path ).each(function(index) {
-        var data = $( this ).text();
-        var colEnCours = listCol[index%nbCol].data;
+        var val = $( this ).text();
+        var numColEncours = index%nbCol;
+        var colEnCours = listCol[numColEncours].data;
 
         const regexDate = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
-        if(regexDate.test(data)){
-          $(this).html(tsFormatter(data));
+        if(regexDate.test(val)){
+          $(this).html(tsFormatter(val));
         }
 
-        if(fd.numeric_columns.includes(colEnCours) && $.isNumeric(data)){
-          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'decimal', maximumFractionDigits: 2 }).format(data));
+        if(fd.numeric_columns.includes(colEnCours) && $.isNumeric(val)){
+          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'decimal', maximumFractionDigits: 2 }).format(val));
           $(this).addClass("text-right" );
         }
 
-        if(fd.devise_columns.includes(colEnCours) && $.isNumeric(data)){
-          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(data));
+        if(fd.devise_columns.includes(colEnCours) && $.isNumeric(val)){
+          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val));
           $(this).addClass("text-right" );
+        }
+
+
+        if(fd.adhoc_url_filters != null){
+          for (let A = 0; A < fd.adhoc_url_filters.length; A++) {
+            const object = fd.adhoc_url_filters[A];
+            if (object.colonneUrl.includes(colEnCours)){
+              var url = object.Url;
+              var splitUrl=url.split("$");
+              var myurl="";
+              for (let indexA = 0; indexA < splitUrl.length; indexA++) {
+                var element = splitUrl[indexA];
+                if (indexA%2!=0) {
+                  var max=nbCol-(index%nbCol)-1;
+                  var min=nbCol-max-1;
+
+                  var next=$(this)
+                  for (let cptNext = 0; cptNext < max; cptNext++) {
+                    next = next.next();
+                    if (next.index()==data.columns.indexOf(element)) {
+                      element= next.text();
+                    }           
+                  }
+
+                  var prev=$(this)
+                  for (let cptPrev = 0; cptPrev < min; cptPrev++) {
+                    prev = prev.prev();
+                    if (prev.index()==data.columns.indexOf(element)) {
+                      element= prev.text();
+                    }           
+                  }                  
+                }
+                myurl+=element;
+              }
+              myurl=encodeURI(myurl);
+              $(this).html(`<a href="${myurl}">${val}</a>`);
+            }
+          };
         }
       });
       $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();

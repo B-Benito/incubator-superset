@@ -18,6 +18,7 @@ import ViewportControl from './ViewportControl';
 import VizTypeControl from './VizTypeControl';
 import MetricsControl from './MetricsControl';
 import AdhocFilterControl from './AdhocFilterControl';
+import AdhocUrlFilterControl from './AdhocUrlFilterControl';
 
 const controlMap = {
   AnnotationLayerControl,
@@ -40,5 +41,6 @@ const controlMap = {
   VizTypeControl,
   MetricsControl,
   AdhocFilterControl,
+  AdhocUrlFilterControl,
 };
 export default controlMap;

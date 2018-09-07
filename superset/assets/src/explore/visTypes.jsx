@@ -1907,9 +1907,18 @@ export const visTypes = {
           ['table_currency_format'],
           ['table_devise_format'],
         ],
+      },      {
+        label: t('Options Url'),
+        expanded: false,
+        controlSetRows: [
+          ['adhoc_url_filters'],
+        ],
       },
     ],
     controlOverrides: {
+      row_limit: {
+        default: 100,
+      },
       metrics: {
         validators: [],
       },

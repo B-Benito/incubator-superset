@@ -2333,6 +2333,19 @@ export const controls = {
     default: ['fr-FR','Europe'],
     choices: NUMERIQUE_OPTIONS,  
   },
+    // Ajout du filter 'adhoc_url_filters'
+    adhoc_url_filters: {
+      type: 'AdhocUrlFilterControl',
+      label: t('Filters'),
+      default: null,
+      description: '',
+      mapStateToProps: state => ({
+        columns: state.datasource ? state.datasource.columns : [],
+        savedMetrics: state.datasource ? state.datasource.metrics : [],
+        datasource: state.datasource,
+      }),
+      provideFormDataToProps: true,
+    },
 
 };
 export default controls;
