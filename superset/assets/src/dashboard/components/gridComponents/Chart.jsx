@@ -156,6 +156,11 @@ class Chart extends React.Component {
       sliceCanEdit,
     } = this.props;
 
+    if(id==75){
+      console.log(this.getFilters())
+      console.log(chart)
+    }
+
     const { width } = this.state;
 
     // this prevents throwing in the case that a gridComponent
@@ -188,7 +193,7 @@ class Chart extends React.Component {
           sliceName={sliceName}
           supersetCanExplore={supersetCanExplore}
           sliceCanEdit={sliceCanEdit}
-          filters={this.props.filters}
+          chart={chart}
         />
 
         {/*
