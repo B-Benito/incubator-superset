@@ -2760,11 +2760,10 @@ class TableInsyniumViz(BaseViz):
             ):
                 del df[m]
 
-        data = self.handle_js_int_overflow(
-            dict(
-                records=df.to_dict(orient='records'),
+        data = dict(
+                records=df.to_json(orient='table'),
                 columns=list(df.columns),
-            ))
+            )
 
         return data
 
