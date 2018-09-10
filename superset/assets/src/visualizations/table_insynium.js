@@ -121,6 +121,9 @@ function TableInsyniumVis(slice, payload) {
                     next = next.next();
                     if (next.index()==data.columns.indexOf(element)) {
                       element= next.text();
+                      if((fd.numeric_columns.includes(data.columns[numColEncours+cptNext+1])||fd.devise_columns.includes(data.columns[numColEncours+cptNext+1]))){
+                        element=element.replace("€","").replace(' ','').replace(',','.');
+                      }
                     }           
                   }
 
@@ -129,7 +132,10 @@ function TableInsyniumVis(slice, payload) {
                     prev = prev.prev();
                     if (prev.index()==data.columns.indexOf(element)) {
                       element= prev.text();
-                    }           
+                    }  
+                    if((fd.numeric_columns.includes(data.columns[numColEncours-cptPrev])||fd.devise_columns.includes(data.columns[numColEncours-cptPrev]))){
+                      element=element.replace("€","").replace(' ','').replace(',','.');
+                    }         
                   }              
                 }
                 myurl+=element;
