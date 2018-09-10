@@ -142,7 +142,7 @@ function TableInsyniumVis(slice, payload) {
                 }
                 myurl+=element;
               }
-              myurl=encodeURI(myurl);
+              myurl=encodeURI(myurl.trim());
               $(this).html(`<a href="${myurl}">${val}</a>`);
             }
           };
