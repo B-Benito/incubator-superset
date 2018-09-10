@@ -2706,7 +2706,6 @@ class TableInsyniumViz(BaseViz):
         if fd.get('all_columns'):
             allcol=fd.get('all_columns')
             if fd.get('adhoc_url_filters'):
-                print(fd.get('adhoc_url_filters'))
                 url = fd.get('adhoc_url_filters')
                 for filtreUrl in fd.get('adhoc_url_filters'):
                     url = filtreUrl['Url']
@@ -2714,7 +2713,6 @@ class TableInsyniumViz(BaseViz):
                     ind=0
                     for var in urlSplit:
                         if(ind%2==1):
-                            print("_____________________"+var+"______________________________")
                             if(var not in allcol):
                                 allcol.append(var)
                         ind=ind+1
