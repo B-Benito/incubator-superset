@@ -39,6 +39,15 @@ function TableInsyniumVis(slice, payload) {
     return c;
   });
 
+  var nomColCache = [];
+  cols.forEach(function(element){
+    if(!(fd.all_columns.includes(element))){
+      nomColCache.push(element);
+    }
+  });
+
+  var nbcolDroite = parseInt(fd.fixed_columns_droite)+nomColCache.length
+
   table.append('thead').append('tr')
     .selectAll('th')
     .data(cols)
@@ -46,7 +55,13 @@ function TableInsyniumVis(slice, payload) {
     .append('th')
     .text(function (d) {
       return d;
-  });
+    })
+    .style('display',function (d) {
+      if(nomColCache.includes(d)){
+        return 'none';
+      }
+      return;
+    });
 
   var listCol = [];   
   data.columns.map((c) => {
@@ -88,7 +103,6 @@ function TableInsyniumVis(slice, payload) {
           $(this).addClass("text-right" );
         }
 
-
         if(fd.adhoc_url_filters != null){
           for (let A = 0; A < fd.adhoc_url_filters.length; A++) {
             const object = fd.adhoc_url_filters[A];
@@ -116,7 +130,7 @@ function TableInsyniumVis(slice, payload) {
                     if (prev.index()==data.columns.indexOf(element)) {
                       element= prev.text();
                     }           
-                  }                  
+                  }              
                 }
                 myurl+=element;
               }
@@ -124,6 +138,9 @@ function TableInsyniumVis(slice, payload) {
               $(this).html(`<a href="${myurl}">${val}</a>`);
             }
           };
+        }
+        if (nomColCache.includes(colEnCours)){
+          $(this).css('display','none');
         }
       });
       $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
@@ -141,7 +158,7 @@ function TableInsyniumVis(slice, payload) {
     scrollY: height + 'px',
     scrollCollapse: true,
     scrollX: true,
-    fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:fd.fixed_columns_droite},
+    fixedColumns:{leftColumns: fd.fixed_columns_gauche,rightColumns:nbcolDroite},
     initComplete: function () {
       initalized=true;
     },

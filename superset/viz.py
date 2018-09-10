@@ -2704,7 +2704,21 @@ class TableInsyniumViz(BaseViz):
 
         sort_by = fd.get('timeseries_limit_metric') or []
         if fd.get('all_columns'):
-            d['columns'] = fd.get('all_columns')
+            allcol=fd.get('all_columns')
+            if fd.get('adhoc_url_filters'):
+                print(fd.get('adhoc_url_filters'))
+                url = fd.get('adhoc_url_filters')
+                for filtreUrl in fd.get('adhoc_url_filters'):
+                    url = filtreUrl['Url']
+                    urlSplit = url.split('$')
+                    ind=0
+                    for var in urlSplit:
+                        if(ind%2==1):
+                            print("_____________________"+var+"______________________________")
+                            if(var not in allcol):
+                                allcol.append(var)
+                        ind=ind+1
+            d['columns'] = allcol
             d['groupby'] = []
             order_by_cols = fd.get('order_by_cols') or []
             d['orderby'] = [json.loads(t) for t in order_by_cols]
