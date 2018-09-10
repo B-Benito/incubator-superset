@@ -94,12 +94,14 @@ function TableInsyniumVis(slice, payload) {
         }
 
         if(fd.numeric_columns.includes(colEnCours) && $.isNumeric(val)){
-          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'decimal', maximumFractionDigits: 2 }).format(val));
+          val=Intl.NumberFormat(fd.table_currency_format, { style: 'decimal', maximumFractionDigits: 2 }).format(val);
+          $(this).html(val);
           $(this).addClass("text-right" );
         }
 
         if(fd.devise_columns.includes(colEnCours) && $.isNumeric(val)){
-          $(this).html(Intl.NumberFormat(fd.table_currency_format, { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val));
+          val=Intl.NumberFormat(fd.table_currency_format, { style: 'currency', currency:fd.table_devise_format, maximumFractionDigits: 2}).format(val);
+          $(this).html(val);
           $(this).addClass("text-right" );
         }
 
