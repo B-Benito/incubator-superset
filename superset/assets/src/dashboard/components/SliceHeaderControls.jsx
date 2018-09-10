@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { chartPropType } from '../../chart/chartReducer';
 import moment from 'moment';
 import { Dropdown, MenuItem } from 'react-bootstrap';
 import {
@@ -24,7 +23,7 @@ const propTypes = {
   forceRefresh: PropTypes.func,
   exploreChart: PropTypes.func,
   exportCSV: PropTypes.func,
-  chart: PropTypes.shape(chartPropType).isRequired,
+  filter: PropTypes.object,
 };
 
 const defaultProps = {
@@ -105,7 +104,7 @@ class SliceHeaderControls extends React.PureComponent {
 
   link(){
     if(this.props.slice.form_data.excelurl!=undefined){
-      const url = this.props.slice.form_data.excelurl + '?filter='+JSON.stringify(this.props.chart.latestQueryFormData.extra_filters);
+      const url = this.props.slice.form_data.excelurl + '?filter='+JSON.stringify(this.props.filter);
       return(
         <MenuItem href={url} target="_blank">
             {t('Télécharger au format Excel')}
