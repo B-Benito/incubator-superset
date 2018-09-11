@@ -158,17 +158,6 @@ function TableInsyniumVis(slice, payload) {
   const datatable = container.find('.dataTable').DataTable({
     data:JSON.parse(data.records).data,
     columns:listCol,
-    buttons: [
-      {
-        extend: 'excelFlash',
-        text: 'Save current page',
-        exportOptions: {
-          modifier: {
-            page: 'current'
-          }
-        }
-      }
-    ],
     paging,
     pageLength,
     aaSorting: [],
