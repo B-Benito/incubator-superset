@@ -25,7 +25,7 @@ const propTypes = {
   sliceName: PropTypes.string,
   supersetCanExplore: PropTypes.bool,
   sliceCanEdit: PropTypes.bool,
-  filter: PropTypes.object,
+  filter: PropTypes.array,
 };
 
 const defaultProps = {

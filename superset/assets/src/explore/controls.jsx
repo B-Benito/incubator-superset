@@ -2276,10 +2276,8 @@ export const controls = {
     type: 'SelectControl',
     multi: false,
     label: t('Fixed Left Columns'),
-    default: ['0'],
-    choices: [
-      '0','1','2','3','4','5','6','7', '8', '9','10','11','12','13',
-    ]
+    default: [['1']],
+    choices: [['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12'],['13'],['14'],['15']]
   },
 
     // Ajout de la table 'fixed_columns_droite'
@@ -2287,10 +2285,8 @@ export const controls = {
       type: 'SelectControl',
       multi: false,
       label: t('Fixed Right Columns'),
-      default: ['0'],
-      choices: [
-        '0','1','2','3','4','5','6','7', '8', '9','10','11','12','13',
-      ]
+      default: [['1']],
+      choices: [['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12'],['13'],['14'],['15']]
     },
 
   // Ajout de la table 'numeric_columns'
@@ -2306,22 +2302,12 @@ export const controls = {
     }),
   },
 
-  // Ajout de la table 'table_numeric_format'
-  table_numeric_format:{
-    type: 'SelectControl',
-    multi: false,
-    label: t('Choix du format numerique'),
-    default: [],
-    
-  },
-
-
     // Ajout de la table 'table_devise_format'
     table_devise_format:{
     type: 'SelectControl',
     multi: false,
     label: t('Choix de la devise'),
-    default: ['EUR','€ EURO'],
+    default: [['EUR','€ EURO']],
     choices: DEVISE_OPTIONS,  
   },
 
@@ -2330,7 +2316,7 @@ export const controls = {
     type: 'SelectControl',
     multi: false,
     label: t('Choix format numerique'),
-    default: ['fr-FR','Europe'],
+    default: [['fr-FR','Europe']],
     choices: NUMERIQUE_OPTIONS,  
   },
     // Ajout du filter 'adhoc_url_filters'

@@ -25,7 +25,7 @@ const propTypes = {
   exploreChart: PropTypes.func,
   exportCSV: PropTypes.func,
   exportEXCEL : PropTypes.func,
-  filter: PropTypes.object,
+  filter: PropTypes.array,
 };
 
 const defaultProps = {
