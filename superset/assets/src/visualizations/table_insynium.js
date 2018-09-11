@@ -40,7 +40,7 @@ function TableInsyniumVis(slice, payload) {
   });
 
   var nomColCache = [];
-  cols.forEach(function(element){
+  data.columns.forEach(function(element){
     if(!(fd.all_columns.includes(element))){
       nomColCache.push(element);
     }
@@ -158,6 +158,17 @@ function TableInsyniumVis(slice, payload) {
   const datatable = container.find('.dataTable').DataTable({
     data:JSON.parse(data.records).data,
     columns:listCol,
+    buttons: [
+      {
+        extend: 'excelFlash',
+        text: 'Save current page',
+        exportOptions: {
+          modifier: {
+            page: 'current'
+          }
+        }
+      }
+    ],
     paging,
     pageLength,
     aaSorting: [],

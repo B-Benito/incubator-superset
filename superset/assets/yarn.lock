@@ -3349,6 +3349,28 @@ datatables.net-bs@^1.10.15, datatables.net-bs@^1.10.19:
     datatables.net "1.10.19"
     jquery ">=1.7"
 
+datatables.net-buttons-dt@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-1.5.3.tgz#6c397ec2aa8c4825c947d702bc805d931e8fe5b2"
+  dependencies:
+    datatables.net-buttons "1.5.3"
+    datatables.net-dt "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-buttons@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons/-/datatables.net-buttons-1.5.3.tgz#3b6481fb0f2747156a3633ae80c66a1ff40ecabe"
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-dt@^1.10.15:
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-1.10.19.tgz#fc668e4942ac6e331be2707975d0f33e01afb60f"
+  dependencies:
+    datatables.net "1.10.19"
+    jquery ">=1.7"
+
 datatables.net-fixedcolumns-bs@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/datatables.net-fixedcolumns-bs/-/datatables.net-fixedcolumns-bs-3.2.6.tgz#c0963962ae4ee0fb4905bbf3ad3dc6df3dc2295c"
