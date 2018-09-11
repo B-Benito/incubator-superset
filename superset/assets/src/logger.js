@@ -143,6 +143,7 @@ export const LOG_ACTIONS_REFRESH_CHART = 'force_refresh_chart';
 export const LOG_ACTIONS_REFRESH_DASHBOARD = 'force_refresh_dashboard';
 export const LOG_ACTIONS_EXPLORE_DASHBOARD_CHART = 'explore_dashboard_chart';
 export const LOG_ACTIONS_EXPORT_CSV_DASHBOARD_CHART = 'export_csv_dashboard_chart';
+export const LOG_ACTIONS_EXPORT_EXCEL_DASHBOARD_CHART = 'export_excel_dashboard_chart';
 export const LOG_ACTIONS_CHANGE_DASHBOARD_FILTER = 'change_dashboard_filter';
 
 export const DASHBOARD_EVENT_NAMES = [
@@ -154,6 +155,7 @@ export const DASHBOARD_EVENT_NAMES = [
   LOG_ACTIONS_EXPLORE_DASHBOARD_CHART,
   LOG_ACTIONS_REFRESH_CHART,
   LOG_ACTIONS_EXPORT_CSV_DASHBOARD_CHART,
+  LOG_ACTIONS_EXPORT_EXCEL_DASHBOARD_CHART,
   LOG_ACTIONS_CHANGE_DASHBOARD_FILTER,
   LOG_ACTIONS_REFRESH_DASHBOARD,
 ];

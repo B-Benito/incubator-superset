@@ -6,6 +6,7 @@ import {
   Logger,
   LOG_ACTIONS_EXPLORE_DASHBOARD_CHART,
   LOG_ACTIONS_EXPORT_CSV_DASHBOARD_CHART,
+  LOG_ACTIONS_EXPORT_EXCEL_DASHBOARD_CHART,
   LOG_ACTIONS_REFRESH_CHART,
 } from '../../logger';
 
@@ -23,6 +24,7 @@ const propTypes = {
   forceRefresh: PropTypes.func,
   exploreChart: PropTypes.func,
   exportCSV: PropTypes.func,
+  exportEXCEL : PropTypes.func,
   filter: PropTypes.object,
 };
 
@@ -31,6 +33,7 @@ const defaultProps = {
   toggleExpandSlice: () => ({}),
   exploreChart: () => ({}),
   exportCSV: () => ({}),
+  exportEXCEL: () => ({}),
   cachedDttm: null,
   updatedDttm: null,
   isCached: false,
@@ -51,6 +54,7 @@ class SliceHeaderControls extends React.PureComponent {
   constructor(props) {
     super(props);
     this.exportCSV = this.exportCSV.bind(this);
+    this.exportEXCEL = this.exportEXCEL.bind(this);
     this.exploreChart = this.exploreChart.bind(this);
     this.toggleControls = this.toggleControls.bind(this);
     this.refreshChart = this.refreshChart.bind(this);
@@ -58,7 +62,6 @@ class SliceHeaderControls extends React.PureComponent {
       this,
       this.props.slice.slice_id,
     );
-    this.link=this.link.bind(this);
     this.state = {
       showControls: false,
     };
@@ -68,6 +71,18 @@ class SliceHeaderControls extends React.PureComponent {
     this.props.exportCSV(this.props.slice.slice_id);
     Logger.append(
       LOG_ACTIONS_EXPORT_CSV_DASHBOARD_CHART,
+      {
+        slice_id: this.props.slice.slice_id,
+        is_cached: this.props.isCached,
+      },
+      true,
+    );
+  }
+  
+  exportEXCEL() {
+    this.props.exportEXCEL(this.props.slice.slice_id);
+    Logger.append(
+      LOG_ACTIONS_EXPORT_EXCEL_DASHBOARD_CHART,
       {
         slice_id: this.props.slice.slice_id,
         is_cached: this.props.isCached,
@@ -102,16 +117,6 @@ class SliceHeaderControls extends React.PureComponent {
     });
   }
 
-  link(){
-    if(this.props.slice.form_data.excelurl!=undefined){
-      const url = this.props.slice.form_data.excelurl + '?filter='+JSON.stringify(this.props.filter);
-      return(
-        <MenuItem href={url} target="_blank">
-            {t('Télécharger au format Excel')}
-        </MenuItem>
-      );
-    }
-  }
 
   render() {
     const { slice, isCached, cachedDttm, updatedDttm } = this.props;
@@ -155,13 +160,15 @@ class SliceHeaderControls extends React.PureComponent {
 
           <MenuItem onClick={this.exportCSV}>{t('Export CSV')}</MenuItem>
 
+
+
           {this.props.supersetCanExplore && (
             <MenuItem onClick={this.exploreChart}>
               {t('Explore chart')}
             </MenuItem>
           )}
 
-          {this.link()}
+          <MenuItem onClick={this.exportEXCEL}>{t('Export Excel')}</MenuItem>
         </Dropdown.Menu>
       </Dropdown>
     );

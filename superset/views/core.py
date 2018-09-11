@@ -14,7 +14,7 @@ import traceback
 from urllib import parse
 
 from flask import (
-    flash, g, Markup, redirect, render_template, request, Response, url_for,
+    flash, g, Markup, redirect, render_template, request, Response, url_for, send_file,
 )
 from flask_appbuilder import expose, SimpleFormView
 from flask_appbuilder.actions import action
@@ -1051,7 +1051,7 @@ class Superset(BaseSupersetView):
             mimetype='application/json')
 
     def generate_json(self, datasource_type, datasource_id, form_data,
-                      csv=False, query=False, force=False):
+                      csv=False, excel=False, query=False, force=False):
         try:
             viz_obj = self.get_viz(
                 datasource_type=datasource_type,
@@ -1077,6 +1077,12 @@ class Superset(BaseSupersetView):
                 status=200,
                 headers=generate_download_headers('csv'),
                 mimetype='application/csv')
+        
+        if excel:
+            filename = '/tmp/'+datetime.now().strftime('%Y%m%d_%H%M%S')+'.xlsx'
+            viz_obj.get_excel(filename)
+            return send_file(filename, as_attachment=True)
+            
 
         if query:
             return self.get_query_string_response(viz_obj)
@@ -1148,6 +1154,7 @@ class Superset(BaseSupersetView):
     @expose('/explore_json/', methods=['GET', 'POST'])
     def explore_json(self, datasource_type=None, datasource_id=None):
         try:
+            excel = request.args.get('excel') == 'true'
             csv = request.args.get('csv') == 'true'
             query = request.args.get('query') == 'true'
             force = request.args.get('force') == 'true'
@@ -1164,7 +1171,8 @@ class Superset(BaseSupersetView):
                                   form_data=form_data,
                                   csv=csv,
                                   query=query,
-                                  force=force)
+                                  force=force,
+                                  excel=excel)
 
     @log_this
     @has_access
