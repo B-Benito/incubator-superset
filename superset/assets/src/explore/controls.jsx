@@ -2276,7 +2276,7 @@ export const controls = {
     type: 'SelectControl',
     multi: false,
     label: t('Fixed Left Columns'),
-    default: [['1']],
+    default: [['0']],
     choices: [['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12'],['13'],['14'],['15']]
   },
 
@@ -2285,7 +2285,7 @@ export const controls = {
       type: 'SelectControl',
       multi: false,
       label: t('Fixed Right Columns'),
-      default: [['1']],
+      default: [['0']],
       choices: [['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['10'],['11'],['12'],['13'],['14'],['15']]
     },
 
