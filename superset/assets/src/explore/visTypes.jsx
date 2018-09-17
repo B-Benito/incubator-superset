@@ -392,6 +392,15 @@ export const visTypes = {
     controlPanelSections: [
       sections.NVD3TimeSeries[0],
       {
+       label: t('Code'),
+        expanded: true,
+        controlSetRows: [
+           ['markup_type'],
+           ['code'],
+           ['url'],
+        ],
+      },
+      {
         label: t('Chart Options'),
         expanded: true,
         controlSetRows: [

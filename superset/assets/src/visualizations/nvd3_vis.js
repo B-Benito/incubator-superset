@@ -27,6 +27,7 @@ const minBarWidth = 15;
 const maxMarginPad = 30;
 const animationTime = 1000;
 const minHeightForBrush = 480;
+var val = 0;
 
 const BREAKPOINTS = {
   small: 340,
@@ -80,7 +81,7 @@ const addTotalBarValues = function (svg, chart, data, stacked, axisFormat) {
           .attr('transform', transformAttr)
           .attr('class', 'bar-chart-label');
         const labelWidth = textEls.node().getBBox().width;
-        textEls.attr('x', xPos + rectWidth / 2 - labelWidth / 2); // fine tune
+       textEls.attr('x', xPos + rectWidth / 2 - labelWidth / 2); // fine tune
       }
     });
 };
@@ -89,17 +90,7 @@ function hideTooltips() {
   $('.nvtooltip').css({ opacity: 0 });
 }
 
-function wrapTooltip(chart, container) {
-  const tooltipLayer = chart.useInteractiveGuideline && chart.useInteractiveGuideline() ?
-    chart.interactiveLayer : chart;
-  const tooltipGeneratorFunc = tooltipLayer.tooltip.contentGenerator();
-  tooltipLayer.tooltip.contentGenerator((d) => {
-    let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
-    tooltip += tooltipGeneratorFunc(d);
-    tooltip += '</div>';
-    return tooltip;
-  });
-}
+
 
 function getMaxLabelSize(container, axisClass) {
   // axis class = .nv-y2  // second y axis on dual line chart
@@ -113,7 +104,7 @@ export function formatLabel(input, verboseMap = {}) {
   // The input for label may be a string or an array of string
   // When using the time shift feature, the label contains a '---' in the array
   const verboseLkp = s => verboseMap[s] || s;
-  let label;
+    let label;
   if (Array.isArray(input) && input.length) {
     const verboseLabels = input.map(l => TIME_SHIFT_PATTERN.test(l) ? l : verboseLkp(l));
     label = verboseLabels.join(', ');
@@ -123,10 +114,41 @@ export function formatLabel(input, verboseMap = {}) {
   return label;
 }
 
+// Renvoie la valeur de la somme de la colonne
 export default function nvd3Vis(slice, payload) {
   let chart;
   let colorKey = 'key';
   const isExplore = $('#explore-container').length === 1;
+
+/////////////////////////////////////////////
+
+function URL_VAL(val){
+  return val!=null ? val : 0;  
+}
+
+function wrapTooltip(chart, container) {
+  const tooltipLayer = chart.useInteractiveGuideline && chart.useInteractiveGuideline() ?
+    chart.interactiveLayer : chart;
+  const tooltipGeneratorFunc = tooltipLayer.tooltip.contentGenerator();
+  tooltipLayer.tooltip.contentGenerator((d) => {
+    //ici cest la vie
+    let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
+    tooltip += tooltipGeneratorFunc(d);
+    tooltip += slice.formData.code;
+    tooltip += JSON.stringify(d);
+    tooltip += '</div>';
+    val = d.series[0].value;
+    //console.log("tooltip 2 : "+tooltip)
+    //console.log("tooltip value : "+val)
+    URL_VAL(val);
+    return tooltip;
+    
+  });
+}
+
+//////////////////////////////////////
+
+
 
   let data;
   if (payload.data) {
@@ -736,7 +758,7 @@ export default function nvd3Vis(slice, payload) {
             return '<div><strong>' + title + '</strong></div><br/>' +
               '<div>' + body.join(', ') + '</div>';
           });
-
+  
         if (slice.annotationData) {
           // Event annotations
           annotationLayers.filter(x => (
@@ -757,8 +779,9 @@ export default function nvd3Vis(slice, payload) {
                 ...r,
                 [e.timeColumn]: timeValue,
               };
-            }).filter(record => !Number.isNaN(record[e.timeColumn].getMilliseconds()));
+            }).filter(record => !Number.isNaN(record[e.timeColumn].getMilliseconds())); 
 
+            // Definis les lignes Y tout les X d'un graphique .
             if (records.length) {
               annotations.selectAll('line')
                 .data(records)
@@ -842,7 +865,7 @@ export default function nvd3Vis(slice, payload) {
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide)
                 .call(tip);
-            }
+              }  
 
             // update annotation positions on brush event
             chart.focus.dispatch.on('onBrush.interval-annotation', function () {
@@ -859,9 +882,14 @@ export default function nvd3Vis(slice, payload) {
             });
           });
         }
-
+        
         // rerender chart appended with annotation layer
         svg.datum(data)
+          /*.append("a")
+          .attr("xlink:href", function() {
+            console.log(data)
+            return fd.url+URL_VAL();
+          })*/
           .attr('height', height)
           .attr('width', width)
           .call(chart);
@@ -874,7 +902,6 @@ export default function nvd3Vis(slice, payload) {
           .style('stroke-width', 0);
       }
     }
-
     wrapTooltip(chart, slice.container);
     return chart;
   };

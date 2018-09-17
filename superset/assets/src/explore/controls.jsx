@@ -1176,7 +1176,7 @@ export const controls = {
     label: t('URL'),
     description: t('The URL, this control is templated, so you can integrate ' +
     '{{ width }} and/or {{ height }} in your URL string.'),
-    default: 'https://www.youtube.com/embed/AdSZJzb-aX8',
+    default: 'https://www.',
   },
 
   x_axis_label: {

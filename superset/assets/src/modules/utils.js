@@ -6,6 +6,7 @@ import { formatDate, UTC } from './dates';
 
 const siFormatter = d3.format('.3s');
 
+
 export function defaultNumberFormatter(n) {
   let si = siFormatter(n);
   // Removing trailing `.00` if any
