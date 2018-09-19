@@ -160,6 +160,15 @@ export const visTypes = {
         ],
       },
       {
+        label: t('Url et InfoBulle'),
+         expanded: true,
+         controlSetRows: [
+            ['markup_type'],
+            ['code'],
+            ['url'],
+         ],
+       },
+      {
         label: t('Chart Options'),
         expanded: true,
         controlSetRows: [
