@@ -15,12 +15,15 @@ import AnnotationTypes, {
 } from '../modules/AnnotationTypes';
 import { customizeToolTip, d3TimeFormatPreset, d3FormatPreset, tryNumify } from '../modules/utils';
 import { formatDateVerbose } from '../modules/dates';
-import { isTruthy, TIME_SHIFT_PATTERN } from '../utils/common';
+import {isTruthy, TIME_SHIFT_PATTERN } from '../utils/common';
+import FilterBox,{getControlData} from './filter_box.jsx';
 import { t } from '../locales';
 
 // CSS
 import './nvd3_vis.css';
 import { VIZ_TYPES } from './';
+
+
 
 const minBarWidth = 15;
 // Limit on how large axes margins can grow as the chart window is resized
@@ -122,10 +125,6 @@ export default function nvd3Vis(slice, payload) {
 
 /////////////////////////////////////////////
 
-function URL_VAL(val){
-  return val!=null ? val : 0;  
-}
-
 function wrapTooltip(chart, container) {
   const tooltipLayer = chart.useInteractiveGuideline && chart.useInteractiveGuideline() ?
     chart.interactiveLayer : chart;
@@ -135,17 +134,13 @@ function wrapTooltip(chart, container) {
     let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
     tooltip += tooltipGeneratorFunc(d);
     tooltip += slice.formData.code;
-    tooltip += JSON.stringify(d);
     tooltip += '</div>';
-    val = d.series[0].value;
-    //console.log("tooltip 2 : "+tooltip)
-    //console.log("tooltip value : "+val)
-    URL_VAL(val);
+    x_Name = d.value
     return tooltip;
     
   });
 }
-
+var x_Name
 //////////////////////////////////////
 
 
@@ -865,7 +860,8 @@ function wrapTooltip(chart, container) {
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide)
                 .call(tip);
-              }  
+            } 
+              
 
             // update annotation positions on brush event
             chart.focus.dispatch.on('onBrush.interval-annotation', function () {
@@ -882,14 +878,9 @@ function wrapTooltip(chart, container) {
             });
           });
         }
-        
+
         // rerender chart appended with annotation layer
         svg.datum(data)
-          /*.append("a")
-          .attr("xlink:href", function() {
-            console.log(data)
-            return fd.url+URL_VAL();
-          })*/
           .attr('height', height)
           .attr('width', width)
           .call(chart);
@@ -900,16 +891,81 @@ function wrapTooltip(chart, container) {
           .style('fill-opacity', 1);
         d3.selectAll('.slice_container .nv-timeseries-annotation-layer.hideLinetrue')
           .style('stroke-width', 0);
+
       }
+
+
+      var svg1 = d3.select(slice.selector).selectAll('rect');
+
+      // Au click lancement du lien HTML
+
+      svg1.on("click", function (d,i) {
+          console.log(data[0])
+          var x = data[0].values[i-1].x
+          var y = data[0].values[i-1].y
+          var url = fd.url
+
+          // Si l url est null fin, si non if() :
+
+          if(fd.url != null){
+              //Declaration des valeurs
+              var splitUrl=url.split("$");
+              var myurl=""
+              var id_slice = fd.slice_id
+              var serie = fd.groupby
+              var time = `,"time_range":"1990-11-27T00:00:00 : 2018-09-19T00:00:00",`
+              var preselect_filters
+
+              //Pour chaque array de splitUrl remplacement des valeurs :
+              for (let indexA = 0; indexA < (splitUrl.length); indexA++) {
+                if(splitUrl[indexA]== 'preselect_filters'){
+                  
+                  if($.isNumeric(splitUrl[indexA+1])){
+                    id_slice=splitUrl[indexA+1]
+                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
+                    myurl=myurl+preselect_filters
+                    indexA=indexA+2
+                  }
+                  else{
+                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
+                    myurl=myurl+preselect_filters
+                  }
+                }
+                else{
+
+                  for (let indexB = 0; indexB < (data[0].values.length)-1; indexB++) {
+                    var object=data[0].values[indexB]
+                    if(object.x == splitUrl[indexA] || object.y ==splitUrl[indexA] ){
+                      // Si l'index suivant est x ou y alors remplament par la valeur x ou y de l'index precedent
+                      if(splitUrl[indexA+1]== 'x' || splitUrl[indexA+1]== 'y'){
+                        var p=splitUrl[indexA+1]
+                        myurl=myurl+object[p]
+                        indexA=indexA+1
+                      }
+                  }
+                }
+                if(splitUrl[indexA]== 'x' || splitUrl[indexA]== 'y'){
+                  indexA=indexA+1
+                }else{myurl=myurl+splitUrl[indexA]}
+              }
+            }
+            myurl=myurl+"}}"
+              myurl=encodeURI(myurl.trim())
+              myurl=myurl.replace('&','%26')
+            };
+          window.open(myurl);
+      });
     }
     wrapTooltip(chart, slice.container);
     return chart;
   };
 
+
   // hide tooltips before rendering chart, if the chart is being re-rendered sometimes
   // there are left over tooltips in the dom,
   // this will clear them before rendering the chart again.
   hideTooltips();
+
 
   nv.addGraph(drawGraph);
 }

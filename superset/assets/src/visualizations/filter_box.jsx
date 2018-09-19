@@ -47,6 +47,7 @@ const defaultProps = {
   instantFiltering: true,
 };
 
+
 class FilterBox extends React.Component {
   constructor(props) {
     super(props);
@@ -55,6 +56,10 @@ class FilterBox extends React.Component {
       hasChanged: false,
     };
   }
+
+  date(){
+    return '0';
+};
   getControlData(controlName) {
     const control = Object.assign({}, controls[controlName]);
     const controlData = {
@@ -63,6 +68,7 @@ class FilterBox extends React.Component {
       value: this.state.selectedValues[timeFilterMap[controlName]],
       actions: { setControlValue: this.changeFilter.bind(this) },
     };
+
     Object.assign(control, controlData);
     const mapFunc = control.mapStateToProps;
     if (mapFunc) {
@@ -117,6 +123,7 @@ class FilterBox extends React.Component {
           </div>
         </div>
       );
+      var date1 = this.state.selectedValues[timeRange]
     }
     const datasourceFilters = [];
     const sqlaFilters = [];
@@ -175,6 +182,10 @@ class FilterBox extends React.Component {
       maxes[filter] = d3.max(data, function (d) {
         return d.metric;
       });
+      //grpBy=this.state.selectedValues[filter]
+      //console.log(this.state.selectedValues[filter])
+      //console.log("test :"+grpBy)
+
       return (
         <div key={filter} className="m-b-5">
           {this.props.datasource.verbose_map[filter] || filter}
@@ -235,6 +246,10 @@ function filterBox(slice, payload) {
   // const url = slice.jsonEndpoint({ extraFilters: false });
   const fd = slice.formData;
   const filtersChoices = {};
+  console.log(fd.slice_id)
+  
+
+
   // Making sure the ordering of the fields matches the setting in the
   // dropdown as it may have been shuffled while serialized to json
   fd.groupby.forEach((f) => {
