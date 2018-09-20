@@ -15,6 +15,7 @@ import OnPasteSelect from '../components/OnPasteSelect';
 import VirtualizedRendererWrap from '../components/VirtualizedRendererWrap';
 import './filter_box.css';
 import { t } from '../locales';
+import filter,{FilterValues} from './nvd3_vis.js'
 
 // maps control names to their key in extra_filters
 const timeFilterMap = {
@@ -47,7 +48,6 @@ const defaultProps = {
   instantFiltering: true,
 };
 
-
 class FilterBox extends React.Component {
   constructor(props) {
     super(props);
@@ -56,10 +56,10 @@ class FilterBox extends React.Component {
       hasChanged: false,
     };
   }
-
+  
   date(){
     return '0';
-};
+  };
   getControlData(controlName) {
     const control = Object.assign({}, controls[controlName]);
     const controlData = {
@@ -119,7 +119,7 @@ class FilterBox extends React.Component {
               description={t('Select start and end date')}
               onChange={this.changeFilter.bind(this, timeRange)}
               value={this.state.selectedValues[timeRange]}
-            />
+            /> 
           </div>
         </div>
       );
@@ -182,10 +182,6 @@ class FilterBox extends React.Component {
       maxes[filter] = d3.max(data, function (d) {
         return d.metric;
       });
-      //grpBy=this.state.selectedValues[filter]
-      //console.log(this.state.selectedValues[filter])
-      //console.log("test :"+grpBy)
-
       return (
         <div key={filter} className="m-b-5">
           {this.props.datasource.verbose_map[filter] || filter}
@@ -214,7 +210,8 @@ class FilterBox extends React.Component {
         </div>
       );
     });
-    return (
+    FilterArray(dateFilter);
+    return (   
       <div className="scrollbar-container">
         <div className="scrollbar-content">
           {dateFilter}
@@ -232,12 +229,16 @@ class FilterBox extends React.Component {
           }
         </div>
       </div>
-    );
+    )
   }
 }
 FilterBox.propTypes = propTypes;
 FilterBox.defaultProps = defaultProps;
 
+function FilterArray(dateFilter){
+  var value =dateFilter._owner._instance.state.selectedValues;
+  return FilterValues(value);
+}
 function filterBox(slice, payload) {
   const d3token = d3.select(slice.selector);
   d3token.selectAll('*').remove();
@@ -246,7 +247,7 @@ function filterBox(slice, payload) {
   // const url = slice.jsonEndpoint({ extraFilters: false });
   const fd = slice.formData;
   const filtersChoices = {};
-  console.log(fd.slice_id)
+  console.log("l'id du filter box est :"+fd.slice_id)
   
 
 
@@ -267,7 +268,7 @@ function filterBox(slice, payload) {
       datasource={slice.datasource}
       origSelectedValues={slice.getFilters() || {}}
       instantFiltering={fd.instant_filtering}
-    />,
+    />,   
     document.getElementById(slice.containerId),
   );
 }

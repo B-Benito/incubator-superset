@@ -1174,8 +1174,7 @@ export const controls = {
   url: {
     type: 'TextControl',
     label: t('URL'),
-    description: t('The URL, this control is templated, so you can integrate ' +
-    '{{ width }} and/or {{ height }} in your URL string.'),
+    description: t('Entrer une Url valide, pour ajouter un preselectfilter : $preselect_filters ,pour specifier l id d un autre chart : ajouter $(le nombre) apres le preselectfilter'),
     default: 'https://www.',
   },
 

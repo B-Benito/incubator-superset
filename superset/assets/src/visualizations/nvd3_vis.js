@@ -22,7 +22,7 @@ import { t } from '../locales';
 import './nvd3_vis.css';
 import { VIZ_TYPES } from './';
 
-
+var test
 
 const minBarWidth = 15;
 // Limit on how large axes margins can grow as the chart window is resized
@@ -88,6 +88,10 @@ const addTotalBarValues = function (svg, chart, data, stacked, axisFormat) {
     });
 };
 
+export function FilterValues(d){
+  test = d
+  return 0
+}
 function hideTooltips() {
   $('.nvtooltip').css({ opacity: 0 });
 }
@@ -125,6 +129,7 @@ export default function nvd3Vis(slice, payload) {
 /////////////////////////////////////////////
 
 function wrapTooltip(chart, container) {
+
   const tooltipLayer = chart.useInteractiveGuideline && chart.useInteractiveGuideline() ?
     chart.interactiveLayer : chart;
   const tooltipGeneratorFunc = tooltipLayer.tooltip.contentGenerator();
@@ -134,15 +139,14 @@ function wrapTooltip(chart, container) {
     tooltip += tooltipGeneratorFunc(d);
     tooltip += slice.formData.code;
     tooltip += '</div>';
-
     if(vizType == 'pie'){x_Name = d.data.x}
     if(vizType == 'dist_bar'){x_Name = d.value;}
     return tooltip;
     
   });
 }
-var x_Name
-//////////////////////////////////////
+  var x_Name
+  //////////////////////////////////////
 
 
 
@@ -897,81 +901,21 @@ var x_Name
           .style('stroke-width', 0);
 
       }
-
-      if(vizType == 'dist_bar'){
-      var svg1 = d3.select(slice.selector).selectAll('rect');
-      }
-
-
-      // Au click lancement du lien HTML
-
-      svg1.on("click", function (d,i) {
-          console.log(data[0])
-          var x = data[0].values[i-1].x
-          var y = data[0].values[i-1].y
-          var url = fd.url
-
-          // Si l url est null fin, si non if() :
-
-          if(fd.url != null){
-              //Declaration des valeurs
-              var splitUrl=url.split("$");
-              var myurl=""
-              var id_slice = fd.slice_id
-              var serie = fd.groupby
-              var time = `,"time_range":"1990-11-27T00:00:00 : 2018-09-19T00:00:00",`
-              var preselect_filters
-
-              //Pour chaque array de splitUrl remplacement des valeurs :
-              for (let indexA = 0; indexA < (splitUrl.length); indexA++) {
-                if(splitUrl[indexA]== 'preselect_filters'){
-                  
-                  if($.isNumeric(splitUrl[indexA+1])){
-                    id_slice=splitUrl[indexA+1]
-                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
-                    myurl=myurl+preselect_filters
-                    indexA=indexA+2
-                  }
-                  else{
-                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
-                    myurl=myurl+preselect_filters
-                  }
-                }
-                else{
-
-                  for (let indexB = 0; indexB < (data[0].values.length)-1; indexB++) {
-                    var object=data[0].values[indexB]
-                    if(object.x == splitUrl[indexA] || object.y ==splitUrl[indexA] ){
-                      // Si l'index suivant est x ou y alors remplament par la valeur x ou y de l'index precedent
-                      if(splitUrl[indexA+1]== 'x' || splitUrl[indexA+1]== 'y'){
-                        var p=splitUrl[indexA+1]
-                        myurl=myurl+object[p]
-                        indexA=indexA+1
-                      }
-                  }
-                }
-                if(splitUrl[indexA]== 'x' || splitUrl[indexA]== 'y'){
-                  indexA=indexA+1
-                }else{myurl=myurl+splitUrl[indexA]}
-              }
-            }
-            myurl=myurl+"}}"
-              myurl=encodeURI(myurl.trim())
-              myurl=myurl.replace('&','%26')
-            };
-          window.open(myurl);
-      });
     }
-    
-    if(vizType == 'pie'){
-      var svg1 = d3.select(slice.selector).selectAll('path');
-      }
+      
 
+    if(vizType == 'dist_bar'){var svg1 = d3.select(slice.selector).selectAll('rect');}
+    if(vizType == 'pie'){var svg1 = d3.select(slice.selector).selectAll('path');}
 
       // Au click lancement du lien HTML
 
       svg1.on("click", function (d,i) {
+        
           var url = fd.url
+          var FilterArray=test
+          FilterArray=JSON.stringify(FilterArray)
+          FilterArray=FilterArray.replace('}','').replace('{','')
+          
 
           // Si l url est null fin, si non if() :
 
@@ -981,22 +925,32 @@ var x_Name
               var myurl=""
               var id_slice = fd.slice_id
               var serie = fd.groupby
-              var time = `,"time_range":"1990-11-27T00:00:00 : 2018-09-19T00:00:00",`
               var preselect_filters
 
               //Pour chaque array de splitUrl remplacement des valeurs :
               for (let indexA = 0; indexA < (splitUrl.length); indexA++) {
                 if(splitUrl[indexA]== 'preselect_filters'){
-                  
                   if($.isNumeric(splitUrl[indexA+1])){
                     id_slice=splitUrl[indexA+1]
-                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
-                    myurl=myurl+preselect_filters
-                    indexA=indexA+2
+
+                    if(FilterArray.length == 0){
+                      preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
+                      myurl=myurl+preselect_filters
+                      indexA=indexA+2
+                    }else{
+                      preselect_filters=`?preselect_filters={"${id_slice}":{${FilterArray},"${serie}":["${x_Name}"]`
+                      myurl=myurl+preselect_filters
+                      indexA=indexA+2
+                    }
                   }
                   else{
-                    preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
-                    myurl=myurl+preselect_filters
+                    if(FilterArray.length == 0){
+                      preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
+                      myurl=myurl+preselect_filters
+                    }else{
+                      preselect_filters=`?preselect_filters={"${id_slice}":{${FilterArray},"${serie}":["${x_Name}"]`
+                      myurl=myurl+preselect_filters
+                    }
                   }
                 }
                 else{
@@ -1017,13 +971,13 @@ var x_Name
                 }else{myurl=myurl+splitUrl[indexA]}
               }
             }
-            myurl=myurl+"}}"
+              myurl=myurl+"}}"
               myurl=encodeURI(myurl.trim())
               myurl=myurl.replace('&','%26')
-            };
-          window.open(myurl);
+              window.open(myurl);
+          };
       });
-
+    
     wrapTooltip(chart, slice.container);
     return chart;
   };

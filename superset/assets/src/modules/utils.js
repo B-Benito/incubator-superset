@@ -212,7 +212,6 @@ export function customizeToolTip(chart, xAxisFormatter, yAxisFormatters) {
   chart.interactiveLayer.tooltip.contentGenerator(function (d) {
     const tooltipTitle = xAxisFormatter(d.value);
     let tooltip = '';
-
     tooltip += "<table><thead><tr><td colspan='3'>"
       + `<strong class='x-value'>${tooltipTitle}</strong>`
       + '</td></tr></thead><tbody>';
