@@ -1174,8 +1174,8 @@ export const controls = {
   url: {
     type: 'TextControl',
     label: t('URL'),
-    description: t('Entrer une Url valide, pour ajouter un preselectfilter : $preselect_filters ,pour specifier l id d un autre chart : ajouter $(le nombre) apres le preselectfilter'),
-    default: 'https://www.',
+    description: t('Entrer une URL valide, pour ajouter un preselectfilter : $preselect_filters, pour spécifier l id d un autre chart : ajouter ($suivies du nombre) à la suite du preselectfilter. Exemple d URL valide ( https://www.gggggg.com/superset/dashboard/6/$preselect_filters$77 ). Pour ajouter des filtres entrés ( ,"exemple":["exempleValue"] )'),
+    default: '',
   },
 
   x_axis_label: {
@@ -1344,7 +1344,7 @@ export const controls = {
   code: {
     type: 'TextAreaControl',
     label: t('Code'),
-    description: t('Put your code here'),
+    description: t('Put your code here. Pour supprimer les données dans l infobulle ($del).'),
     mapStateToProps: state => ({
       language: state.controls && state.controls.markup_type ? state.controls.markup_type.value : 'markdown',
     }),

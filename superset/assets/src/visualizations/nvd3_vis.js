@@ -133,17 +133,31 @@ function wrapTooltip(chart, container) {
   const tooltipLayer = chart.useInteractiveGuideline && chart.useInteractiveGuideline() ?
     chart.interactiveLayer : chart;
   const tooltipGeneratorFunc = tooltipLayer.tooltip.contentGenerator();
-  tooltipLayer.tooltip.contentGenerator((d) => {
-    //ici cest la vie
-    let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
-    tooltip += tooltipGeneratorFunc(d);
-    tooltip += slice.formData.code;
-    tooltip += '</div>';
-    if(vizType == 'pie'){x_Name = d.data.x}
-    if(vizType == 'dist_bar'){x_Name = d.value;}
-    return tooltip;
-    
-  });
+  var Code = JSON.stringify(slice.formData.code)
+  if (Code.includes('$del')){
+    tooltipLayer.tooltip.contentGenerator((d) => {
+      //ici cest la vie
+      let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
+      tooltip += slice.formData.code.replace('$del','');
+      tooltip += '</div>';
+      if(vizType == 'pie'){x_Name = d.data.x}
+      if(vizType == 'dist_bar'){x_Name = d.value;}
+      return tooltip;
+    });
+  }
+  else{
+    tooltipLayer.tooltip.contentGenerator((d) => {
+      //ici cest la vie
+      let tooltip = `<div style="max-width: ${container.width() * 0.5}px">`;
+      tooltip += tooltipGeneratorFunc(d);
+      tooltip += slice.formData.code;
+      tooltip += '</div>';
+      if(vizType == 'pie'){x_Name = d.data.x}
+      if(vizType == 'dist_bar'){x_Name = d.value;}
+      return tooltip;
+      
+    });
+  }
 }
   var x_Name
   //////////////////////////////////////
@@ -913,8 +927,11 @@ function wrapTooltip(chart, container) {
         
           var url = fd.url
           var FilterArray=test
+
+          if(FilterArray !== undefined){
           FilterArray=JSON.stringify(FilterArray)
           FilterArray=FilterArray.replace('}','').replace('{','')
+          }
           
 
           // Si l url est null fin, si non if() :
@@ -926,10 +943,13 @@ function wrapTooltip(chart, container) {
               var id_slice = fd.slice_id
               var serie = fd.groupby
               var preselect_filters
+              var IsIn = false;
 
               //Pour chaque array de splitUrl remplacement des valeurs :
               for (let indexA = 0; indexA < (splitUrl.length); indexA++) {
                 if(splitUrl[indexA]== 'preselect_filters'){
+                  IsIn=true;
+
                   if($.isNumeric(splitUrl[indexA+1])){
                     id_slice=splitUrl[indexA+1]
 
@@ -957,6 +977,7 @@ function wrapTooltip(chart, container) {
 
                   for (let indexB = 0; indexB < (data.length)-1; indexB++) {
                     var object=data[indexB]
+                    console.log(data)
                     if(object.x == splitUrl[indexA] || object.y ==splitUrl[indexA] ){
                       // Si l'index suivant est x ou y alors remplament par la valeur x ou y de l'index precedent
                       if(splitUrl[indexA+1]== 'x' || splitUrl[indexA+1]== 'y'){
@@ -971,14 +992,16 @@ function wrapTooltip(chart, container) {
                 }else{myurl=myurl+splitUrl[indexA]}
               }
             }
+            if(IsIn === true){
               myurl=myurl+"}}"
+            }
               myurl=encodeURI(myurl.trim())
               myurl=myurl.replace('&','%26')
               window.open(myurl);
           };
       });
     
-    wrapTooltip(chart, slice.container);
+    wrapTooltip(chart, slice.container,data);
     return chart;
   };
 
