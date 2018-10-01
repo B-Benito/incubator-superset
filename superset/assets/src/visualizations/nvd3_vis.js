@@ -928,9 +928,9 @@ function wrapTooltip(chart, container) {
           var url = fd.url
           var FilterArray=test
 
-          if(FilterArray !== undefined){
-          FilterArray=JSON.stringify(FilterArray)
-          FilterArray=FilterArray.replace('}','').replace('{','')
+          if(FilterArray != undefined){
+            FilterArray=JSON.stringify(FilterArray)
+            FilterArray=FilterArray.replace('}','').replace('{','')
           }
           
 
@@ -953,7 +953,7 @@ function wrapTooltip(chart, container) {
                   if($.isNumeric(splitUrl[indexA+1])){
                     id_slice=splitUrl[indexA+1]
 
-                    if(FilterArray.length == 0){
+                    if(FilterArray == undefined){
                       preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
                       myurl=myurl+preselect_filters
                       indexA=indexA+2
@@ -964,7 +964,7 @@ function wrapTooltip(chart, container) {
                     }
                   }
                   else{
-                    if(FilterArray.length == 0){
+                    if(FilterArray == undefined){
                       preselect_filters=`?preselect_filters={"${id_slice}":{"${serie}":["${x_Name}"]`
                       myurl=myurl+preselect_filters
                     }else{
@@ -977,7 +977,7 @@ function wrapTooltip(chart, container) {
 
                   for (let indexB = 0; indexB < (data.length)-1; indexB++) {
                     var object=data[indexB]
-                    console.log(data)
+                    //console.log(data)
                     if(object.x == splitUrl[indexA] || object.y ==splitUrl[indexA] ){
                       // Si l'index suivant est x ou y alors remplament par la valeur x ou y de l'index precedent
                       if(splitUrl[indexA+1]== 'x' || splitUrl[indexA+1]== 'y'){
@@ -992,7 +992,7 @@ function wrapTooltip(chart, container) {
                 }else{myurl=myurl+splitUrl[indexA]}
               }
             }
-            if(IsIn === true){
+            if(IsIn){
               myurl=myurl+"}}"
             }
               myurl=encodeURI(myurl.trim())
