@@ -106,6 +106,15 @@ export const visTypes = {
         ],
       },
       {
+        label: t('Url et InfoBulle'),
+         expanded: true,
+         controlSetRows: [
+            ['markup_type'],
+            ['code'],
+            ['url'],
+         ],
+       },
+      {
         label: t('Chart Options'),
         expanded: true,
         controlSetRows: [
@@ -150,6 +159,15 @@ export const visTypes = {
           ['row_limit'],
         ],
       },
+      {
+        label: t('Url et InfoBulle'),
+         expanded: true,
+         controlSetRows: [
+            ['markup_type'],
+            ['code'],
+            ['url'],
+         ],
+       },
       {
         label: t('Chart Options'),
         expanded: true,
@@ -392,7 +410,7 @@ export const visTypes = {
     controlPanelSections: [
       sections.NVD3TimeSeries[0],
       {
-       label: t('Code'),
+       label: t('Url et InfoBulle'),
         expanded: true,
         controlSetRows: [
            ['markup_type'],

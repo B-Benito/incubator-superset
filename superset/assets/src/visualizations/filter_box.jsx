@@ -15,6 +15,7 @@ import OnPasteSelect from '../components/OnPasteSelect';
 import VirtualizedRendererWrap from '../components/VirtualizedRendererWrap';
 import './filter_box.css';
 import { t } from '../locales';
+import filter,{FilterValues} from './nvd3_vis.js'
 
 // maps control names to their key in extra_filters
 const timeFilterMap = {
@@ -55,6 +56,10 @@ class FilterBox extends React.Component {
       hasChanged: false,
     };
   }
+  
+  date(){
+    return '0';
+  };
   getControlData(controlName) {
     const control = Object.assign({}, controls[controlName]);
     const controlData = {
@@ -63,6 +68,7 @@ class FilterBox extends React.Component {
       value: this.state.selectedValues[timeFilterMap[controlName]],
       actions: { setControlValue: this.changeFilter.bind(this) },
     };
+
     Object.assign(control, controlData);
     const mapFunc = control.mapStateToProps;
     if (mapFunc) {
@@ -113,10 +119,11 @@ class FilterBox extends React.Component {
               description={t('Select start and end date')}
               onChange={this.changeFilter.bind(this, timeRange)}
               value={this.state.selectedValues[timeRange]}
-            />
+            /> 
           </div>
         </div>
       );
+      var date1 = this.state.selectedValues[timeRange]
     }
     const datasourceFilters = [];
     const sqlaFilters = [];
@@ -203,7 +210,8 @@ class FilterBox extends React.Component {
         </div>
       );
     });
-    return (
+    FilterArray(dateFilter);
+    return (   
       <div className="scrollbar-container">
         <div className="scrollbar-content">
           {dateFilter}
@@ -221,12 +229,16 @@ class FilterBox extends React.Component {
           }
         </div>
       </div>
-    );
+    )
   }
 }
 FilterBox.propTypes = propTypes;
 FilterBox.defaultProps = defaultProps;
 
+function FilterArray(dateFilter){
+  var value =dateFilter._owner._instance.state.selectedValues;
+  return FilterValues(value);
+}
 function filterBox(slice, payload) {
   const d3token = d3.select(slice.selector);
   d3token.selectAll('*').remove();
@@ -235,6 +247,10 @@ function filterBox(slice, payload) {
   // const url = slice.jsonEndpoint({ extraFilters: false });
   const fd = slice.formData;
   const filtersChoices = {};
+  console.log("l'id du filter box est :"+fd.slice_id)
+  
+
+
   // Making sure the ordering of the fields matches the setting in the
   // dropdown as it may have been shuffled while serialized to json
   fd.groupby.forEach((f) => {
@@ -252,7 +268,7 @@ function filterBox(slice, payload) {
       datasource={slice.datasource}
       origSelectedValues={slice.getFilters() || {}}
       instantFiltering={fd.instant_filtering}
-    />,
+    />,   
     document.getElementById(slice.containerId),
   );
 }
